@@ -46,6 +46,17 @@
         weekButton.addEventListener("click", () => {
             toggle.classList.add("is-week");
         });
+
+        const options = {
+            method: 'GET',
+            headers: {
+                accept: 'application/json',
+                Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJjZDRmOTczOWFlOTAyM2Q1NzVkZDU2MTAxMzk0ZTlkNyIsIm5iZiI6MTc5MTgwNzgwOC43MTgwMDAyLCJzdWIiOiI2YWNjZDE0MDU0MTI4N2U2MGJiN2MzMmIiLCJzY29wZXMiOlsiYXBpX3JlYWQiXSwidmVyc2lvbiI6MX0.YOSZbtJefOt1jU5sqVYsnsyfiggJVOgmUv_qMU63Rno'
+            }
+        };
+        fetch('https://api.themoviedb.org/3/movie/popular?language=en-US&page=1', options)
+        .then(response => response.json())
+        .then(data => console.log(data.results));
     </script>
 
 </x-layout>
