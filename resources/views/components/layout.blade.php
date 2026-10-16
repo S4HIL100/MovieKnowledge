@@ -5,41 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>MovieKnowledge</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-    <style>
-      .navbar-search .form-control {
-        flex: 1;
-        min-width: 0;
-      }
-
-      .navbar-search .btn {
-        margin-left:8px;
-      }
-
-      @media (min-width: 992px) {
-        .navbar .container-fluid {
-          position: relative;
-        }
-
-        .navbar-search {
-          position: absolute;
-          left: 50%;
-          transform: translateX(-50%);
-          width: min(40vw, 36rem);
-        }
-      }
-
-      footer p{
-        text-align: center;
-        padding-top: 10px;
-      }
-
-      @media (max-width: 991px) {
-        .navbar-search {
-          width: 100%;
-          margin-top: 0.5rem;
-        }
-      }
-    </style>
+    @vite(['resources/css/app.css'])
   </head>
   <body class="bs-body-bg min-vh-100 d-flex flex-column text-light" style="background-color: #2b2e31;">
     <nav class="navbar navbar-expand-lg bg-dark" data-bs-theme="dark">
