@@ -74,21 +74,21 @@ footer p{
     margin: auto;
 }
 
-.popularContainer{
+.Container{
     margin-left: 15px;
     display: flex;
     overflow: auto;
     min-height: 380px;
 }
 
-.popularContainer img{
+.Container img{
     width: 200px;
     height: 300px;
     border-radius: 10px;
     margin-right: 15px;
 }
 
-.popularContainer .imgContainer{
+.Container .imgContainer{
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -100,6 +100,10 @@ footer p{
     box-sizing: border-box;
     width: 350px;
     height: 30px;
+}
+
+.Container .imgContainer p {
+    margin: 0;
 }
 
 .popular-toggle button {
