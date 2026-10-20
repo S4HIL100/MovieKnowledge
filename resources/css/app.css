@@ -79,6 +79,8 @@ footer p{
     display: flex;
     overflow: auto;
     min-height: 380px;
+    scrollbar-width: thin;
+    scrollbar-color: #020202 transparent;
 }
 
 .Container img{
@@ -116,7 +118,7 @@ footer p{
     width: 27%;
     border-radius: 15px;
     background-color: #b40fd2;
-    transition: transform 200ms ease;
+    transition: transform 200ms ease, width 200ms ease;
 }
 
 .popular-toggle[data-selected="tv"] .popular-toggle-indicator {
@@ -132,4 +134,30 @@ footer p{
 .popular-toggle[data-selected="theatres"] .popular-toggle-indicator {
     transform: translateX(235%);
     width: 30%;
+}
+
+.free-toggle {
+    position: relative;
+    display: flex;
+    box-sizing: border-box;
+    width: 120px;
+    height: 30px;
+}
+
+.free-toggle-indicator {
+    position: absolute;
+    inset: 0px;
+    width: 60%;
+    border-radius: 15px;
+    background-color: #b40fd2;
+    transition: transform 200ms ease, width 200ms;
+}
+
+.free-toggle button{
+    z-index: 1;
+}
+
+.free-toggle[data-selected="tv"] .free-toggle-indicator {
+    transform: translateX(150%);
+    width: 40%;
 }

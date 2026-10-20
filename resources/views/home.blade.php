@@ -21,6 +21,15 @@
     </div>
     <div class = "Container" id = "popular"></div>
 
+    <div style = "display: flex; align-items: center">
+        <h1 style = "font-size: 1.5em; margin: 15px 15px">Free To Watch</h1>
+        <div class="free-toggle" style = "border: 1px solid; border-color: #b40fd2; border-radius: 15px; margin-top: 5px">
+            <span class="free-toggle-indicator" aria-hidden="true"></span>
+            <button data-option="movies" style = "background-color: transparent; border: none; color: white; border-radius: 15px; margin-left: 5px">Movies</button>
+            <button data-option="tv" style = "background-color: transparent; border: none; color: white; border-radius: 15px; margin-left: 8px">TV</button>
+        </div>
+    </div>
+
     <script>
         const toggle = document.querySelector(".trending-toggle");
         const todayButton = document.querySelector(".button1");
@@ -28,6 +37,7 @@
         const trendingContainer = document.getElementById("trending");
         const popularContainer = document.getElementById("popular");
         const popularToggle = document.querySelector(".popular-toggle");
+        const freeToggle = document.querySelector(".free-toggle");
 
         popularToggle.addEventListener("click", event => {
             const button = event.target.closest("button[data-option]");
@@ -46,6 +56,15 @@
                 else{
                     loadPopular("https://api.themoviedb.org/3/movie/now_playing?region=GB");
                 }
+            }
+        });
+
+        freeToggle.addEventListener("click", event => {
+            const button = event.target.closest("button[data-option]");
+
+            if (button) {
+                freeToggle.dataset.selected = button.dataset.option;
+                
             }
         });
 
