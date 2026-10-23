@@ -1,45 +1,42 @@
 <x-layout>
     <div class = "toggleContainer">
-        <h1 style = "font-size: 1.5em; margin: 15px 15px">Trending</h1>
-        <div class="trending-toggle" style = "border: 1px solid; border-color: #b40fd2; border-radius: 15px; margin-top: 5px">
+        <h1 class = "homeHeader">Trending</h1>
+        <div class="toggle trending-toggle">
             <span class="trending-toggle-indicator" aria-hidden="true"></span>
-            <button class="button1" style = "background-color: transparent; border: none; color: white; border-radius: 15px; margin-left: 5px">Today</button>
-            <button class="button2" style = "background-color: transparent; border: none; color: white; border-radius: 15px; margin-left: 8px; padding-right: 8px;">This Week</button>
+            <button data-option = "day" class = "homeButton" style = "margin-left: 5px">Today</button>
+            <button data-option = "week" class = "homeButton" style = "margin-left: 8px; padding-right: 8px">This Week</button>
         </div>
     </div>
     <div class = "Container" id = "trending"></div>
 
     <div class = "toggleContainer">
-        <h1 style = "font-size: 1.5em; margin: 15px 15px">What's Popular</h1>
-        <div class="popular-toggle" style = "border: 1px solid; border-color: #b40fd2; border-radius: 15px; margin-top: 5px">
+        <h1 class = "homeHeader">What's Popular</h1>
+        <div class="toggle popular-toggle">
             <span class="popular-toggle-indicator" aria-hidden="true"></span>
-            <button data-option="streaming" style = "background-color: transparent; border: none; color: white; border-radius: 15px; margin-left: 5px">Streaming</button>
-            <button data-option="tv" style = "background-color: transparent; border: none; color: white; border-radius: 15px; margin-left: 8px">On TV</button>
-            <button data-option="rent" style = "background-color: transparent; border: none; color: white; border-radius: 15px; margin-left: 8px">For Rent</button>
-            <button data-option="theatres" style = "background-color: transparent; border: none; color: white; border-radius: 15px; margin-left: 10px">In Theatres</button>
+            <button data-option="streaming" class = "homeButton" style = "margin-left: 5px">Streaming</button>
+            <button data-option="tv" class = "homeButton" style = "margin-left: 8px">On TV</button>
+            <button data-option="rent" class = "homeButton" style = "margin-left: 8px">For Rent</button>
+            <button data-option="theatres" class = "homeButton" style = "margin-left: 10px">In Theatres</button>
         </div>
     </div>
     <div class = "Container" id = "popular"></div>
 
     <div class = "toggleContainer">
-        <h1 style = "font-size: 1.5em; margin: 15px 15px">Free To Watch</h1>
-        <div class="free-toggle" style = "border: 1px solid; border-color: #b40fd2; border-radius: 15px; margin-top: 5px; padding-right: 5px;">
+        <h1 class = "homeHeader">Free To Watch</h1>
+        <div class="toggle free-toggle" style = "padding-right: 5px;">
             <span class="free-toggle-indicator" aria-hidden="true"></span>
-            <button data-option="movies" style = "background-color: transparent; border: none; color: white; border-radius: 15px; margin-left: 5px">Movies</button>
-            <button data-option="tv" style = "background-color: transparent; border: none; color: white; border-radius: 15px; margin-left: 6px">TV</button>
+            <button data-option="movies" class = "homeButton" style = "margin-left: 5px">Movies</button>
+            <button data-option="tv" class = "homeButton" style = "margin-left: 6px">TV</button>
         </div>
     </div>
     <div class = "Container" id = "free"></div>
 
     <script>
-        const todayButton = document.querySelector(".button1");
-        const weekButton = document.querySelector(".button2");
-
         const trendingContainer = document.getElementById("trending");
         const popularContainer = document.getElementById("popular");
         const freeContainer = document.getElementById("free");
 
-        const toggle = document.querySelector(".trending-toggle");
+        const trendingToggle = document.querySelector(".trending-toggle");
         const popularToggle = document.querySelector(".popular-toggle");
         const freeToggle = document.querySelector(".free-toggle");
 
@@ -78,14 +75,18 @@
             }
         });
 
-        todayButton.addEventListener("click", () => {
-            toggle.classList.remove("is-week");
-            load("https://api.themoviedb.org/3/trending/all/day?language=en-US", trendingContainer);
-        });
+        trendingToggle.addEventListener("click", () => {
+            const button = event.target.closest("button[data-option]");
 
-        weekButton.addEventListener("click", () => {
-            toggle.classList.add("is-week");
-            load("https://api.themoviedb.org/3/trending/all/week?language=en-US", trendingContainer);
+            if (button){
+                trendingToggle.dataset.selected = button.dataset.option;
+                if(button.dataset.option == "week"){
+                    load("https://api.themoviedb.org/3/trending/all/week?language=en-US", trendingContainer);
+                }
+                else{
+                    load("https://api.themoviedb.org/3/trending/all/day?language=en-US", trendingContainer);
+                }
+            }
         });
 
         const options = {

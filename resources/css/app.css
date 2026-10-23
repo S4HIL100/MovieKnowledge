@@ -10,6 +10,18 @@
         'Segoe UI Symbol', 'Noto Color Emoji';
 }
 
+.homeHeader{
+    font-size: 1.5em;
+    margin: 15px 15px;
+}
+
+.homeButton{
+    background-color: transparent; 
+    border: none; 
+    color: white; 
+    border-radius: 15px;
+}
+
 .navbar-search .form-control {
     flex: 1;
     min-width: 0;
@@ -44,9 +56,18 @@ footer p{
     }
 }
 
+.toggle{
+    border: 1px solid; 
+    border-color: #b40fd2; 
+    border-radius: 15px;
+    margin-top: 5px;
+}
+
 .toggleContainer{
     display: flex;
     align-items: center;
+    white-space: nowrap;
+    overflow-x: auto;
 }
 
 .trending-toggle {
@@ -67,9 +88,9 @@ footer p{
     transition: transform 200ms ease;
 }
 
-.trending-toggle.is-week .trending-toggle-indicator {
-    transform: translateX(79%);
-    width: 56%;
+.trending-toggle[data-selected="week"] .trending-toggle-indicator {
+    transform: translateX(72%);
+    width: 58%;
 }
 
 .trending-toggle button {
@@ -182,12 +203,7 @@ footer p{
     }
 
     .Container img{
-        width: 180px;
-        height: 280px;
-    }
-
-    .toggleContainer{
-        white-space: nowrap;
-        overflow-x: auto;
+        width: 160px;
+        height: 260px;
     }
 }
