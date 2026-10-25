@@ -46,16 +46,16 @@
             if (button) {
                 popularToggle.dataset.selected = button.dataset.option;
                 if (button.dataset.option == "streaming"){
-                    load("https://api.themoviedb.org/3/discover/movie?watch_region=GB&with_watch_monetization_types=flatrate&sort_by=popularity.desc", popularContainer);
+                    load("https://api.themoviedb.org/3/discover/movie?watch_region=GB&with_watch_monetization_types=flatrate&sort_by=popularity.desc", popularContainer, "movie");
                 }
                 else if (button.dataset.option == "rent"){
-                    load("https://api.themoviedb.org/3/discover/movie?watch_region=GB&with_watch_monetization_types=rent&sort_by=popularity.desc&language=en-US", popularContainer);
+                    load("https://api.themoviedb.org/3/discover/movie?watch_region=GB&with_watch_monetization_types=rent&sort_by=popularity.desc&language=en-US", popularContainer, "movie");
                 }
                 else if (button.dataset.option == "tv"){
-                    load("https://api.themoviedb.org/3/tv/popular?language=en-US&page=1", popularContainer);
+                    load("https://api.themoviedb.org/3/tv/popular?language=en-US&page=1", popularContainer, "tv");
                 }
                 else{
-                    load("https://api.themoviedb.org/3/movie/now_playing?region=GB", popularContainer);
+                    load("https://api.themoviedb.org/3/movie/now_playing?region=GB", popularContainer, "movie");
                 }
             }
         });
@@ -66,10 +66,10 @@
             if (button) {
                 freeToggle.dataset.selected = button.dataset.option;
                 if(button.dataset.option == "movies"){
-                    load("https://api.themoviedb.org/3/discover/movie?watch_region=GB&with_watch_monetization_types=free&sort_by=popularity.desc&language=en-US", freeContainer);
+                    load("https://api.themoviedb.org/3/discover/movie?watch_region=GB&with_watch_monetization_types=free&sort_by=popularity.desc&language=en-US", freeContainer, "movie");
                 }
                 else{
-                    load("https://api.themoviedb.org/3/discover/tv?watch_region=GB&with_watch_monetization_types=free&sort_by=popularity.desc&language=en-US", freeContainer);
+                    load("https://api.themoviedb.org/3/discover/tv?watch_region=GB&with_watch_monetization_types=free&sort_by=popularity.desc&language=en-US", freeContainer, "tv");
                 }
                 
             }
@@ -97,19 +97,19 @@
             }
         };
 
-        function load(link, container){
+        function load(link, container, type){
             container.innerHTML = '<div class="spinner-border loading-spinner" role="status"><span class="visually-hidden">Loading...</span></div>';
-
             fetch(link, options)
             .then(response => response.json())
             .then(data => {
                 container.replaceChildren();
-                data.results.forEach(element => {
+                data.results.filter(element => element.media_type !== "person").forEach(element => {
                     const div = document.createElement("div");
                     const image = document.createElement("img");
                     const title = document.createElement("p");
-                    const [year, month, day] = (element.release_date != undefined) ? element.release_date.split("-").map(Number) : element.first_air_date.split("-").map(Number) ;
+                    const [year, month, day] = (element.release_date != undefined) ? element.release_date.split("-").map(Number) : element.first_air_date.split("-").map(Number);
                     const date = new Date(year, month - 1, day);
+                    const mediaType = type || element.media_type;
                     const formattedDate = new Intl.DateTimeFormat("en-GB", {
                         day: "numeric",
                         month: "long",
@@ -127,6 +127,11 @@
                     div.appendChild(image);
                     div.appendChild(title);
                     div.appendChild(releaseDate);
+
+                    div.onclick = () => {
+                        window.location.href = `/media/${mediaType}/${element.id}`;                    
+                    }
+
                     container.appendChild(div);
                 });
 
@@ -138,8 +143,8 @@
         }
 
         load("https://api.themoviedb.org/3/trending/all/day?language=en-US", trendingContainer);
-        load("https://api.themoviedb.org/3/discover/movie?watch_region=GB&with_watch_monetization_types=flatrate&sort_by=popularity.desc", popularContainer);
-        load("https://api.themoviedb.org/3/discover/movie?watch_region=GB&with_watch_monetization_types=free&sort_by=popularity.desc&language=en-US", freeContainer);
+        load("https://api.themoviedb.org/3/discover/movie?watch_region=GB&with_watch_monetization_types=flatrate&sort_by=popularity.desc", popularContainer, "movie");
+        load("https://api.themoviedb.org/3/discover/movie?watch_region=GB&with_watch_monetization_types=free&sort_by=popularity.desc&language=en-US", freeContainer, "movie");
     </script>
 
 </x-layout>

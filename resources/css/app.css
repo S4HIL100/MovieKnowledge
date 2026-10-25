@@ -193,6 +193,21 @@ footer p{
     width: 40%;
 }
 
+#backdrop {
+    display: flex;
+    height: 540px; 
+    width: 100%;
+    position: relative;
+}
+
+#backdrop::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    backdrop-filter: blur(5px);
+    background: rgba(43, 46, 49, 0.12);
+}
+
 @media (width < 600px){
     body{
         font-size: 0.875rem;
