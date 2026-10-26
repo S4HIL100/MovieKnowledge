@@ -1,5 +1,5 @@
 <x-layout>
-    <div id="backdrop"></div>
+    <div id="backdrop" aria-hidden="true"></div>
     <script>
         const id = {{ Illuminate\Support\Js::from($id) }};
         const type = {{ Illuminate\Support\Js::from($type) }};
@@ -17,10 +17,20 @@
         .then(res => res.json())
         .then(data => {
             backdrop.replaceChildren();
+            const poster = document.createElement("img");
+            const title = document.createElement("h1");
+
+
             console.log(data);
             if (data.backdrop_path) {
                 backdrop.style.backgroundImage = `url("https://media.themoviedb.org/t/p/w1280${data.backdrop_path}")`;
             };
+
+            poster.src = `https://media.themoviedb.org/t/p/w500${data.poster_path}`;
+            title.textContent = data.original_name;
+
+            backdrop.appendChild(poster);
+            backdrop.appendChild(title);
         })
         .catch(err => console.error(err));
     </script>
