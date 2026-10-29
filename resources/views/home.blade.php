@@ -1,8 +1,8 @@
 <x-layout>
     <div class = "toggleContainer">
         <h1 class = "homeHeader">Trending</h1>
-        <div class="toggle trending-toggle">
-            <span class="trending-toggle-indicator" aria-hidden="true"></span>
+        <div class="toggle" data-toggle="trending">
+            <span aria-hidden="true"></span>
             <button data-option = "day" class = "homeButton" style = "margin-left: 5px">Today</button>
             <button data-option = "week" class = "homeButton" style = "margin-left: 8px; padding-right: 8px">This Week</button>
         </div>
@@ -11,8 +11,8 @@
 
     <div class = "toggleContainer">
         <h1 class = "homeHeader">What's Popular</h1>
-        <div class="toggle popular-toggle">
-            <span class="popular-toggle-indicator" aria-hidden="true"></span>
+        <div class="toggle" data-toggle="popular">
+            <span aria-hidden="true"></span>
             <button data-option="streaming" class = "homeButton" style = "margin-left: 5px">Streaming</button>
             <button data-option="tv" class = "homeButton" style = "margin-left: 8px">On TV</button>
             <button data-option="rent" class = "homeButton" style = "margin-left: 8px">For Rent</button>
@@ -23,8 +23,8 @@
 
     <div class = "toggleContainer">
         <h1 class = "homeHeader">Free To Watch</h1>
-        <div class="toggle free-toggle" style = "padding-right: 5px;">
-            <span class="free-toggle-indicator" aria-hidden="true"></span>
+        <div class="toggle" data-toggle="free" style = "padding-right: 5px;">
+            <span aria-hidden="true"></span>
             <button data-option="movies" class = "homeButton" style = "margin-left: 5px">Movies</button>
             <button data-option="tv" class = "homeButton" style = "margin-left: 6px">TV</button>
         </div>
@@ -36,9 +36,9 @@
         const popularContainer = document.getElementById("popular");
         const freeContainer = document.getElementById("free");
 
-        const trendingToggle = document.querySelector(".trending-toggle");
-        const popularToggle = document.querySelector(".popular-toggle");
-        const freeToggle = document.querySelector(".free-toggle");
+        const trendingToggle = document.querySelector('[data-toggle="trending"]');
+        const popularToggle = document.querySelector('[data-toggle="popular"]');
+        const freeToggle = document.querySelector('[data-toggle="free"]');
 
         popularToggle.addEventListener("click", event => {
             const button = event.target.closest("button[data-option]");
