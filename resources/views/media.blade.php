@@ -15,7 +15,12 @@
                         </button>
                     </div>
                 </div>
-                <span class="age-rating" hidden></span>
+                <div class = "media-info">
+                    <span class="age-rating" hidden></span>
+                    <p class = "date" hidden></p>
+                    <span class="production-countries" hidden></span>
+                    <span class="media-genres" hidden></span>
+                </div>
             </div>
         </div>
     </div>
@@ -28,6 +33,9 @@
         const poster = document.querySelector(".media-poster");
         const title = document.getElementById("media-title");
         const showYear = document.querySelector(".media-year");
+        const showDate = document.querySelector(".date");
+        const showProductionCountries = document.querySelector(".production-countries");
+        const showGenres = document.querySelector(".media-genres");
         const ratingBadge = document.querySelector(".age-rating");
         const textColorButton = document.querySelector(".text-color-toggle");
         const options = {
@@ -54,9 +62,32 @@
             }
 
             title.textContent = data.name || data.title || data.original_name || data.original_title;
+            const productionCountries = type === "movie"
+                ? data.production_countries?.map(country => country.iso_3166_1) ?? []
+                : data.origin_country ?? [];
+
+            if (productionCountries.length > 0) {
+                showProductionCountries.textContent = `(${productionCountries.join(" ")})`;
+                showProductionCountries.hidden = false;
+            }
+
+            const genres = data.genres?.map(genre => genre.name) ?? [];
+            if (genres.length > 0) {
+                showGenres.textContent = genres.join(" ");
+                showGenres.hidden = false;
+            }
+
             if (releaseDate) {
-                showYear.textContent = `(${releaseDate.slice(0, 4)})`;
+                const [year, month, day] = releaseDate.split("-");
+                const paddedYear = year.padStart(4, "0");
+
+                showYear.textContent = `(${paddedYear})`;
                 showYear.hidden = false;
+
+                if (month && day) {
+                    showDate.textContent = `${day.padStart(2, "0")}/${month.padStart(2, "0")}/${paddedYear}`;
+                    showDate.hidden = false;
+                }
             }
 
             loadingSpinner.hidden = true;

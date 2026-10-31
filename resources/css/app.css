@@ -248,9 +248,33 @@ footer p{
     border: 1px solid black;
 }
 
+#backdrop .media-content .date,
+#backdrop .media-content .production-countries,
+#backdrop .media-content .media-genres {
+    color: black;
+    margin-left: 8px;
+}
+
+#backdrop .media-content .production-countries {
+    margin-left: 4px;
+    transform: translateY(-0.15em);
+}
+
+#backdrop .media-content .media-genres {
+    margin-left: 4px;
+    transform: translateY(-0.15em);
+}
+
+#backdrop .media-info{
+    display: flex;
+}
+
 #backdrop .media-content.is-white h1,
 #backdrop .media-content.is-white .media-year,
-#backdrop .media-content.is-white .age-rating {
+#backdrop .media-content.is-white .age-rating,
+#backdrop .media-content.is-white .date,
+#backdrop .media-content.is-white .production-countries,
+#backdrop .media-content.is-white .media-genres {
     color: white;
 }
 
@@ -271,7 +295,7 @@ footer p{
     font-weight: normal;
     z-index: 3;
     color: black;
-    transform: translateY(-0.15em);
+    transform: translateY(-0.03em);
 }
 
 .text-color-toggle {
