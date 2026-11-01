@@ -19,7 +19,10 @@
                     <span class="age-rating" hidden></span>
                     <p class = "date" hidden></p>
                     <span class="production-countries" hidden></span>
+                    <div class = "circle"></div>
                     <span class="media-genres" hidden></span>
+                    <div class = "circle"></div>
+                    <span class = "media-runtime" hidden></span>
                 </div>
             </div>
         </div>
@@ -38,6 +41,7 @@
         const showGenres = document.querySelector(".media-genres");
         const ratingBadge = document.querySelector(".age-rating");
         const textColorButton = document.querySelector(".text-color-toggle");
+        const runtime = document.querySelector(".media-runtime");
         const options = {
             method: 'GET',
             headers: {
@@ -50,6 +54,18 @@
         .then(res => res.json())
         .then(data => {
             const releaseDate = data.release_date || data.first_air_date;
+            const formatRuntime = (totalMinutes) => {
+                const hours = Math.floor(totalMinutes / 60);
+                const minutes = totalMinutes % 60;
+                const duration = hours > 0 ? `${hours}h ` : "" + minutes > 0 ? `${minutes}m` : "";
+                return (duration != "") ? duration : "0m";
+            };
+
+            const time = formatRuntime(data.runtime);
+            if(time != "0m"){
+                runtime.textContent = time;
+                runtime.hidden = false;
+            }
 
             if (data.backdrop_path) {
                 backdrop.style.backgroundImage = `url("https://media.themoviedb.org/t/p/w1280${data.backdrop_path}")`;
@@ -73,7 +89,7 @@
 
             const genres = data.genres?.map(genre => genre.name) ?? [];
             if (genres.length > 0) {
-                showGenres.textContent = genres.join(" ");
+                showGenres.textContent = genres.join(", ");
                 showGenres.hidden = false;
             }
 
