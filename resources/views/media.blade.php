@@ -24,6 +24,13 @@
                     <div class = "circle"></div>
                     <span class = "media-runtime" hidden></span>
                 </div>
+                <div class="progress-ring">
+                    <span></span>
+                </div>
+                <div class = "media-description">
+                    <h4 >Overview</h4>
+                    <p class = "overview"></p>
+                </div>
             </div>
         </div>
     </div>
@@ -42,6 +49,8 @@
         const ratingBadge = document.querySelector(".age-rating");
         const textColorButton = document.querySelector(".text-color-toggle");
         const runtime = document.querySelector(".media-runtime");
+        const overview = document.querySelector(".overview");
+        const UserScore = document.querySelector(".progress-ring");
         const options = {
             method: 'GET',
             headers: {
@@ -77,13 +86,18 @@
                 poster.hidden = false;
             }
 
+            if(data.vote_average){
+                UserScore.style.setProperty("--progress", `${Math.ceil(data.vote_average * 10)}%`);
+                UserScore.firstElementChild.textContent = `${Math.ceil(data.vote_average * 10)}%`;
+            }
+
             title.textContent = data.name || data.title || data.original_name || data.original_title;
             const productionCountries = type === "movie"
                 ? data.production_countries?.map(country => country.iso_3166_1) ?? []
                 : data.origin_country ?? [];
 
             if (productionCountries.length > 0) {
-                showProductionCountries.textContent = `(${productionCountries.join(" ")})`;
+                showProductionCountries.textContent = `(${productionCountries.join(", ")})`;
                 showProductionCountries.hidden = false;
             }
 
@@ -104,6 +118,10 @@
                     showDate.textContent = `${day.padStart(2, "0")}/${month.padStart(2, "0")}/${paddedYear}`;
                     showDate.hidden = false;
                 }
+            }
+
+            if(data.overview){
+                overview.textContent = data.overview;
             }
 
             loadingSpinner.hidden = true;

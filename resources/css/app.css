@@ -180,7 +180,7 @@ footer p{
 
 #backdrop {
     display: flex;
-    height: auto; 
+    height: 500px; 
     width: 100%;
     position: absolute;
     background-position: top;
@@ -195,6 +195,19 @@ footer p{
     backdrop-filter: blur(5px);
     z-index: 0;
 
+}
+
+.progress-ring {
+    --progress: 0%;
+    --color: black 82%;
+    width: 64px;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    background:
+        radial-gradient(closest-side, var(--color), transparent 84%),
+        conic-gradient(#35a853 var(--progress), #ddd 0);
 }
 
 #backdrop > .media-content {
@@ -248,6 +261,11 @@ footer p{
     border: 1px solid black;
 }
 
+#backdrop .media-info .date {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
 #backdrop .media-content .date,
 #backdrop .media-content .production-countries,
 #backdrop .media-content .media-genres {
@@ -261,7 +279,7 @@ footer p{
 
 #backdrop .media-content .media-genres {
     margin-left: 4px;
-    transform: translateY(-0.1em);
+    margin-bottom: 4px;
     white-space: nowrap;
 }
 
@@ -278,15 +296,24 @@ footer p{
 #backdrop .media-info{
     display: flex;
     color:black;
+    flex-wrap: nowrap;
+    align-items: center;
+    width: max-content;
 }
 
 #backdrop .media-info .media-runtime{
-    transform: translateY(-0.03em);
+    transform: translateY(-0.05em);
+}
+
+#backdrop .media-content .media-details .media-description{
+    color: black;
 }
 
 #backdrop .media-content.is-white h1,
 #backdrop .media-content.is-white .media-year,
-#backdrop .media-content.is-white .media-info{
+#backdrop .media-content.is-white .media-info,
+#backdrop .media-content.is-white .media-description,
+#backdrop .media-content .progress-ring span{
     color: white;
 }
 
@@ -296,6 +323,14 @@ footer p{
 
 #backdrop .media-content.is-white .circle{
     background-color: white;
+}
+
+#backdrop .media-content.is-white .progress-ring{
+    --color: white 82%;
+}
+
+#backdrop .media-content.is-white .progress-ring span{
+    color: black;
 }
 
 #backdrop .media-title-actions {
