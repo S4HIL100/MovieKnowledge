@@ -1,14 +1,10 @@
 <?php
 
+use App\Http\Controllers\PageController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('home');
-});
+Route::get('/', [PageController::class, 'home']);
 
-Route::get('/media/{type}/{id}', function (string $type, string $id) {
-    return view('media', [
-        'type' => $type,
-        'id' => $id,
-    ]);
-})->whereIn('type', ['movie', 'tv'])->name('media');
+Route::get('/media/{type}/{id}', [PageController::class, 'media'])
+    ->whereIn('type', ['movie', 'tv'])
+    ->name('media');

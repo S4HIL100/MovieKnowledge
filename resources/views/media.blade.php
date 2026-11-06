@@ -19,9 +19,9 @@
                     <span class="age-rating" hidden></span>
                     <p class = "date" hidden></p>
                     <span class="production-countries" hidden></span>
-                    <div class = "circle"></div>
+                    <div id = "circle1" class = "circle"></div>
                     <span class="media-genres" hidden></span>
-                    <div class = "circle"></div>
+                    <div id = "circle2" class = "circle"></div>
                     <span class = "media-runtime" hidden></span>
                 </div>
                 <div class="progress-ring">
@@ -74,6 +74,10 @@
             if(time != "0m"){
                 runtime.textContent = time;
                 runtime.hidden = false;
+            }
+
+            if(runtime.hidden){
+                document.getElementById("circle2").hidden = true;
             }
 
             if (data.backdrop_path) {
