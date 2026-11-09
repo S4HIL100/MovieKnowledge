@@ -24,8 +24,14 @@
                     <div id = "circle2" class = "circle"></div>
                     <span class = "media-runtime" hidden></span>
                 </div>
-                <div class="progress-ring">
-                    <span></span>
+                <div style = "display: flex; align-items: center">
+                    <div class="user-score">
+                        <div class="progress-ring">
+                            <span></span>
+                        </div>
+                        <p class = "UserScore-title">User Score</p>
+                    </div>
+                    <div class = "watchlist">+</div>
                 </div>
                 <div class = "media-description">
                     <h4 >Overview</h4>
