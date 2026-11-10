@@ -329,11 +329,26 @@ footer p{
     font-size: 2em;
     font-weight: bold;
     cursor: pointer;
-    background-color: rgb(31, 31, 31);
+    background-color: rgb(61, 61, 61);
     border-radius: 10px;
     align-items: center;
     justify-content: center;
     padding-bottom: 3px;
+    transition: transform 200ms ease-in-out, box-shadow 200ms ease-in-out;
+}
+
+.watchlist.is-selected{
+    background-color: #2563EB;
+}
+
+.watchlist:hover{
+    transform: translateY(-2 px);
+    box-shadow: 0px 3px black;
+}
+
+.watchlist:active{
+    transform: translateY(2px);
+    box-shadow: 0px 0px 1px black;
 }
 
 #backdrop .media-content.is-white h1,

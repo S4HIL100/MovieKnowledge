@@ -11,22 +11,22 @@
 
     <div class = "toggleContainer">
         <h1 class = "homeHeader">What's Popular</h1>
-        <div class="toggle" data-toggle="popular">
-            <span aria-hidden="true"></span>
-            <button data-option="streaming" class = "homeButton" style = "margin-left: 5px">Streaming</button>
-            <button data-option="tv" class = "homeButton" style = "margin-left: 8px">On TV</button>
-            <button data-option="rent" class = "homeButton" style = "margin-left: 8px">For Rent</button>
-            <button data-option="theatres" class = "homeButton" style = "margin-left: 10px">In Theatres</button>
+        <div class="toggle" data-toggle = "popular">
+            <span aria-hidden = "true"></span>
+            <button data-option = "streaming" class = "homeButton" style = "margin-left: 5px">Streaming</button>
+            <button data-option = "tv" class = "homeButton" style = "margin-left: 8px">On TV</button>
+            <button data-option = "rent" class = "homeButton" style = "margin-left: 8px">For Rent</button>
+            <button data-option = "theatres" class = "homeButton" style = "margin-left: 10px">In Theatres</button>
         </div>
     </div>
     <div class = "Container" id = "popular"></div>
 
     <div class = "toggleContainer">
         <h1 class = "homeHeader">Free To Watch</h1>
-        <div class="toggle" data-toggle="free" style = "padding-right: 5px;">
-            <span aria-hidden="true"></span>
-            <button data-option="movies" class = "homeButton" style = "margin-left: 5px">Movies</button>
-            <button data-option="tv" class = "homeButton" style = "margin-left: 6px">TV</button>
+        <div class = "toggle" data-toggle = "free" style = "padding-right: 5px;">
+            <span aria-hidden = "true"></span>
+            <button data-option = "movies" class = "homeButton" style = "margin-left: 5px">Movies</button>
+            <button data-option = "tv" class = "homeButton" style = "margin-left: 6px">TV</button>
         </div>
     </div>
     <div class = "Container" id = "free"></div>
@@ -120,6 +120,7 @@
                     releaseDate.textContent = formattedDate;
 
                     title.innerText = (element.title != undefined) ? element.title : element.name;
+                    title.style.width = "85%";
                     div.classList.add("imgContainer");
                     image.src = `https://media.themoviedb.org/t/p/w500${element.poster_path}`;
                     image.alt = (element.title != undefined) ? element.title : element.name;

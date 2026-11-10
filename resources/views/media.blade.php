@@ -31,7 +31,7 @@
                         </div>
                         <p class = "UserScore-title">User Score</p>
                     </div>
-                    <div class = "watchlist">+</div>
+                    <div class = "watchlist" title="Add to watchlist">+</div>
                 </div>
                 <div class = "media-description">
                     <h4 >Overview</h4>
@@ -57,6 +57,7 @@
         const runtime = document.querySelector(".media-runtime");
         const overview = document.querySelector(".overview");
         const UserScore = document.querySelector(".progress-ring");
+        const watchlist = document.querySelector(".watchlist");
         const options = {
             method: 'GET',
             headers: {
@@ -144,6 +145,19 @@
 
             textColorButton.textContent = isWhite ? "Make text black" : "Make text white";
             textColorButton.setAttribute("aria-pressed", String(isWhite));
+        });
+
+        let count = 0;
+        watchlist.addEventListener("click", () => {
+            watchlist.classList.toggle("is-selected");
+            if(count == 0){
+                watchlist.title = "Added to watchlist";
+                count++;
+            }
+            else{
+                watchlist.title = "Add to watchlist";
+                count--;
+            }
         });
 
         const ratingUrl = type === "movie" ? `https://api.themoviedb.org/3/movie/${id}/release_dates` : `https://api.themoviedb.org/3/tv/${id}/content_ratings`;
