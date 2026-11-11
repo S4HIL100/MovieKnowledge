@@ -146,15 +146,16 @@
             textColorButton.textContent = isWhite ? "Make text black" : "Make text white";
             textColorButton.setAttribute("aria-pressed", String(isWhite));
         });
-
+        
         let count = 0;
         watchlist.addEventListener("click", () => {
-            watchlist.classList.toggle("is-selected");
             if(count == 0){
+                watchlist.classList.add("is-selected");
                 watchlist.title = "Added to watchlist";
                 count++;
             }
             else{
+                watchlist.classList.remove("is-selected");
                 watchlist.title = "Add to watchlist";
                 count--;
             }

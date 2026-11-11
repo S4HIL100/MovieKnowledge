@@ -334,20 +334,20 @@ footer p{
     align-items: center;
     justify-content: center;
     padding-bottom: 3px;
-    transition: transform 200ms ease-in-out, box-shadow 200ms ease-in-out;
+    transition: transform 300ms ease-in-out, box-shadow 300ms ease-in-out;
 }
 
-.watchlist.is-selected{
+.is-selected{
     background-color: #2563EB;
 }
 
 .watchlist:hover{
-    transform: translateY(-2 px);
+    transform: translateY(-3px);
     box-shadow: 0px 3px black;
 }
 
 .watchlist:active{
-    transform: translateY(2px);
+    transform: translateY(3px);
     box-shadow: 0px 0px 1px black;
 }
 
