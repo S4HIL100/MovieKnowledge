@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\Request;
 
 class PageController extends Controller
 {
@@ -11,11 +12,19 @@ class PageController extends Controller
         return view('home');
     }
 
-    public function media(string $type, string $id): View
+    public function media(Request $request, string $type, string $id): View
     {
+        $user = $request->user();
+        $isInWatchlist = $user !== null
+            && $user->watchMedia()
+                ->where('media_id', $id)
+                ->where('type', $type)
+                ->exists();
+
         return view('media', [
             'type' => $type,
             'id' => $id,
+            'isInWatchlist' => $isInWatchlist,
         ]);
     }
 }

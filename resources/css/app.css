@@ -328,13 +328,22 @@ footer p{
     height: 50px;
     font-size: 2em;
     font-weight: bold;
+    font-family: inherit;
+    line-height: normal;
+    color: inherit;
     cursor: pointer;
+    appearance: none;
     background-color: rgb(61, 61, 61);
     border-radius: 10px;
+    border: 0;
     align-items: center;
     justify-content: center;
-    padding-bottom: 3px;
+    padding: 0 0 3px;
     transition: transform 300ms ease-in-out, box-shadow 300ms ease-in-out;
+}
+
+.watchlist-form{
+    margin: 0;
 }
 
 .is-selected{

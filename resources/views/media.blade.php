@@ -31,7 +31,25 @@
                         </div>
                         <p class = "UserScore-title">User Score</p>
                     </div>
-                    <div class = "watchlist" title="Add to watchlist">+</div>
+                    <form action="/watchlist" method="POST" class="watchlist-form">
+                        @csrf
+                        <input type="hidden" name="media_id" value="{{ $id }}">
+                        <input type="hidden" name="type" value="{{ $type }}">
+                        <input type="hidden" name="title" id="watchlist-title">
+                        <input type="hidden" name="description" id="watchlist-description">
+                        <input type="hidden" name="poster_path" id="watchlist-poster-path">
+                        <button
+                            class="watchlist"
+                            type="submit"
+                            title="Add to watchlist"
+                            aria-label="Add to watchlist"
+                            aria-pressed="false"
+                            disabled
+                        >+</button>
+                        @foreach ($errors->all() as $error)
+                            <div class="text-danger" role="alert">{{ $error }}</div>
+                        @endforeach
+                    </form>
                 </div>
                 <div class = "media-description">
                     <h4 >Overview</h4>
@@ -43,6 +61,8 @@
     <script>
         const id = {{ Illuminate\Support\Js::from($id) }};
         const type = {{ Illuminate\Support\Js::from($type) }};
+        const isInWatchlist = {{ Illuminate\Support\Js::from($isInWatchlist) }};
+
         const backdrop = document.getElementById("backdrop");
         const loadingSpinner = document.getElementById("media-loading");
         const container = document.getElementById("media-content");
@@ -57,6 +77,10 @@
         const runtime = document.querySelector(".media-runtime");
         const overview = document.querySelector(".overview");
         const UserScore = document.querySelector(".progress-ring");
+
+        const watchlistTitle = document.getElementById("watchlist-title");
+        const watchlistDescription = document.getElementById("watchlist-description");
+        const watchlistPosterPath = document.getElementById("watchlist-poster-path");
         const watchlist = document.querySelector(".watchlist");
         const options = {
             method: 'GET',
@@ -65,6 +89,11 @@
                 Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJjZDRmOTczOWFlOTAyM2Q1NzVkZDU2MTAxMzk0ZTlkNyIsIm5iZiI6MTc5MTgwNzgwOC43MTgwMDAyLCJzdWIiOiI2YWNjZDE0MDU0MTI4N2U2MGJiN2MzMmIiLCJzY29wZXMiOlsiYXBpX3JlYWQiXSwidmVyc2lvbiI6MX0.YOSZbtJefOt1jU5sqVYsnsyfiggJVOgmUv_qMU63Rno'
             }
         };
+
+        watchlist.classList.toggle("is-selected", isInWatchlist);
+        watchlist.title = isInWatchlist ? "Added to watchlist" : "Add to watchlist";
+        watchlist.setAttribute("aria-label", watchlist.title);
+        watchlist.setAttribute("aria-pressed", String(isInWatchlist));
 
         fetch(`https://api.themoviedb.org/3/${type}/${id}?language=en-US`, options)
         .then(res => res.json())
@@ -81,9 +110,7 @@
             if(time != "0m"){
                 runtime.textContent = time;
                 runtime.hidden = false;
-            }
-
-            if(runtime.hidden){
+            }else{
                 document.getElementById("circle2").hidden = true;
             }
 
@@ -102,7 +129,16 @@
                 UserScore.firstElementChild.textContent = `${Math.ceil(data.vote_average * 10)}%`;
             }
 
-            title.textContent = data.name || data.title || data.original_name || data.original_title;
+            const mediaTitle = data.name || data.title || data.original_name || data.original_title;
+            title.textContent = mediaTitle;
+
+            if (mediaTitle) {
+                watchlistTitle.value = mediaTitle;
+                watchlistDescription.value = data.overview ?? "";
+                watchlistPosterPath.value = data.poster_path ?? "";
+                watchlist.disabled = false;
+            }
+
             const productionCountries = type === "movie"
                 ? data.production_countries?.map(country => country.iso_3166_1) ?? []
                 : data.origin_country ?? [];
@@ -147,20 +183,6 @@
             textColorButton.setAttribute("aria-pressed", String(isWhite));
         });
         
-        let count = 0;
-        watchlist.addEventListener("click", () => {
-            if(count == 0){
-                watchlist.classList.add("is-selected");
-                watchlist.title = "Added to watchlist";
-                count++;
-            }
-            else{
-                watchlist.classList.remove("is-selected");
-                watchlist.title = "Add to watchlist";
-                count--;
-            }
-        });
-
         const ratingUrl = type === "movie" ? `https://api.themoviedb.org/3/movie/${id}/release_dates` : `https://api.themoviedb.org/3/tv/${id}/content_ratings`;
 
         fetch(ratingUrl, options)
