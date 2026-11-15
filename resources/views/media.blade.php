@@ -38,14 +38,7 @@
                         <input type="hidden" name="title" id="watchlist-title">
                         <input type="hidden" name="description" id="watchlist-description">
                         <input type="hidden" name="poster_path" id="watchlist-poster-path">
-                        <button
-                            class="watchlist"
-                            type="submit"
-                            title="Add to watchlist"
-                            aria-label="Add to watchlist"
-                            aria-pressed="false"
-                            disabled
-                        >+</button>
+                        <button class="watchlist" type="submit" title="Add to watchlist" aria-label="Add to watchlist" aria-pressed="false" disabled>+</button>
                         @foreach ($errors->all() as $error)
                             <div class="text-danger" role="alert">{{ $error }}</div>
                         @endforeach

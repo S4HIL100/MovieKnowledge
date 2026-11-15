@@ -8,7 +8,7 @@ use Illuminate\Validation\Rule;
 
 class WatchlistController extends Controller
 {
-    public function store(Request $request): RedirectResponse
+    public function store(Request $request)
     {
         $validated = $request->validate([
             'media_id' => ['required', 'integer', 'min:1'],
@@ -18,8 +18,7 @@ class WatchlistController extends Controller
             'poster_path' => ['nullable', 'string', 'max:255'],
         ]);
 
-        $request->user()->watchMedia()->create($validated);
-
-        return back()->with('success', 'Added to watchlist!');
+        auth()->user()->watchMedia()->create($validated);
+        return redirect('/media')->with('success', 'Added to WatchList');
     }
 }

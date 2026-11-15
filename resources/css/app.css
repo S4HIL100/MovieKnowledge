@@ -31,6 +31,52 @@
     margin-left:8px;
 }
 
+main:has(.register-page) {
+    display: flex;
+    flex-direction: column;
+}
+
+.register-card {
+    width: min(30%, 34rem);
+    min-height: 60vh;
+}
+
+.register-title {
+    margin: 0;
+    padding: 2rem 2rem 0;
+    text-align: center;
+}
+
+.register-card-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 1.5rem;
+    padding: 1.5rem clamp(1.5rem, 3vw, 3rem) clamp(1.5rem, 3vw, 3rem);
+}
+
+.register-field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.register-field .form-label {
+    margin-bottom: 0;
+}
+
+.register-card-body > .btn {
+    align-self: center;
+    width: 100%;
+}
+
+@media (max-width: 767px) {
+    .register-card {
+        width: calc(100% - 2rem);
+        min-height: 60vh;
+    }
+}
+
 @media (min-width: 992px) {
     .navbar .container-fluid {
         position: relative;

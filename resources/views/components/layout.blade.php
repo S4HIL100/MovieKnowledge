@@ -19,10 +19,18 @@
                     <input class="form-control me-2" type="search" placeholder="Search for movies or tv series..." aria-label="Search"/>
                     <button class="btn btn-outline-success" type="submit">Search</button>
                 </form>
-                <div class="d-flex flex-column flex-lg-row gap-2 mt-3 mt-lg-0 ms-lg-auto">
-                    <button type="button" class="btn btn-outline-primary">Sign Up</button>
-                    <button type="button" class="btn btn-outline-primary">Login</button>
-                </div>
+                @auth
+                    <span class="text-sm">{{ auth()->user()->name }}</span>
+                    <form method="POST" action="/logout" class="inline">
+                        @csrf
+                        <button type="submit" class="btn btn-ghost btn-sm">Logout</button>
+                    </form>
+                @else
+                    <div class="d-flex flex-column flex-lg-row gap-2 mt-3 mt-lg-0 ms-lg-auto">
+                        <a href = "{{ route('register') }}" class="btn btn-outline-primary">Sign Up</a>
+                        <a class="btn btn-outline-primary">Login</a>
+                    </div>
+                @endauth
             </div>
         </div>
     </nav>
