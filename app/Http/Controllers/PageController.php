@@ -15,16 +15,16 @@ class PageController extends Controller
     public function media(Request $request, string $type, string $id): View
     {
         $user = $request->user();
-        $isInWatchlist = $user !== null
-            && $user->watchMedia()
-                ->where('media_id', $id)
-                ->where('type', $type)
-                ->exists();
+        $watchlistEntry = $user?->watchMedia()
+            ->where('media_id', $id)
+            ->where('type', $type)
+            ->first();
 
         return view('media', [
             'type' => $type,
             'id' => $id,
-            'isInWatchlist' => $isInWatchlist,
+            'isInWatchlist' => $watchlistEntry !== null,
+            'watchlistId' => $watchlistEntry?->getKey(),
         ]);
     }
 }

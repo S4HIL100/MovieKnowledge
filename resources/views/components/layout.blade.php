@@ -20,11 +20,19 @@
                     <button class="btn btn-outline-success" type="submit">Search</button>
                 </form>
                 @auth
-                    <span class="text-sm">{{ auth()->user()->name }}</span>
-                    <form method="POST" action="/logout" class="inline">
-                        @csrf
-                        <button type="submit" class="btn btn-ghost btn-sm">Logout</button>
-                    </form>
+                    <div class="d-flex flex-column flex-lg-row gap-2 mt-3 mt-lg-0 ms-lg-auto">
+                        <div class = "profile">{{ mb_substr(auth()->user()->name, 0, 1)}}</div>
+                        <div class = "dropdown">
+                            <ul style="list-style: none; padding-left: 0; margin: 0">
+                                <li>
+                                    <form method="POST" action="/logout">
+                                        @csrf
+                                        <button type="submit" class="btn btn-ghost btn-sm">Logout</button>
+                                    </form>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
                 @else
                     <div class="d-flex flex-column flex-lg-row gap-2 mt-3 mt-lg-0 ms-lg-auto">
                         <a href = "{{ route('register') }}" class="btn btn-outline-primary">Sign Up</a>
@@ -51,5 +59,9 @@
     </main>
     <footer class = "bg-dark text-light" data-bs-theme="dark"><p>©2026 Sahil Bhandal</p></footer>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+    <script>
+        const profile = document.querySelector(".profile");
+        profile.addEventListener("click", () => {document.querySelector(".dropdown").classList.toggle("visible")});
+    </script>
   </body>
 </html>

@@ -2,13 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Watchlist;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
 class WatchlistController extends Controller
 {
-    public function store(Request $request)
+    public function store(Request $request): JsonResponse|RedirectResponse
     {
         $validated = $request->validate([
             'media_id' => ['required', 'integer', 'min:1'],
@@ -18,7 +20,29 @@ class WatchlistController extends Controller
             'poster_path' => ['nullable', 'string', 'max:255'],
         ]);
 
-        auth()->user()->watchMedia()->create($validated);
-        return redirect('/media')->with('success', 'Added to WatchList');
+        $watchlist = $request->user()->watchMedia()->create($validated);
+
+        if ($request->expectsJson()) {
+            return response()->json([
+                'id' => $watchlist->getKey(),
+                'isInWatchlist' => true,
+                'message' => 'Added to watchlist.',
+            ], 201);
+        }
+
+        return back()->with('success', 'Added to WatchList');
+    }
+
+    public function destroy(Request $request, Watchlist $watchlist): JsonResponse|RedirectResponse
+    {
+        $request->user()
+            ->watchMedia()
+            ->whereKey($watchlist->getKey())
+            ->firstOrFail()
+            ->delete();
+
+        if ($request->expectsJson()) {
+            return response()->json(['message' => 'Removed from watchlist.']);
+        }
     }
 }

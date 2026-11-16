@@ -31,7 +31,12 @@
                         </div>
                         <p class = "UserScore-title">User Score</p>
                     </div>
-                    <form action="/watchlist" method="POST" class="watchlist-form">
+                    <form
+                        action="{{ route('watchlist.store') }}"
+                        data-destroy-url="{{ route('watchlist.destroy', ['watchlist' => '__WATCHLIST_ID__']) }}"
+                        method="POST"
+                        class="watchlist-form"
+                    >
                         @csrf
                         <input type="hidden" name="media_id" value="{{ $id }}">
                         <input type="hidden" name="type" value="{{ $type }}">
@@ -39,9 +44,6 @@
                         <input type="hidden" name="description" id="watchlist-description">
                         <input type="hidden" name="poster_path" id="watchlist-poster-path">
                         <button class="watchlist" type="submit" title="Add to watchlist" aria-label="Add to watchlist" aria-pressed="false" disabled>+</button>
-                        @foreach ($errors->all() as $error)
-                            <div class="text-danger" role="alert">{{ $error }}</div>
-                        @endforeach
                     </form>
                 </div>
                 <div class = "media-description">
@@ -54,7 +56,7 @@
     <script>
         const id = {{ Illuminate\Support\Js::from($id) }};
         const type = {{ Illuminate\Support\Js::from($type) }};
-        const isInWatchlist = {{ Illuminate\Support\Js::from($isInWatchlist) }};
+        let isInWatchlist = {{ Illuminate\Support\Js::from($isInWatchlist) }};
 
         const backdrop = document.getElementById("backdrop");
         const loadingSpinner = document.getElementById("media-loading");
@@ -74,6 +76,7 @@
         const watchlistTitle = document.getElementById("watchlist-title");
         const watchlistDescription = document.getElementById("watchlist-description");
         const watchlistPosterPath = document.getElementById("watchlist-poster-path");
+        const watchlistForm = document.querySelector(".watchlist-form");
         const watchlist = document.querySelector(".watchlist");
         const options = {
             method: 'GET',
@@ -87,6 +90,43 @@
         watchlist.title = isInWatchlist ? "Added to watchlist" : "Add to watchlist";
         watchlist.setAttribute("aria-label", watchlist.title);
         watchlist.setAttribute("aria-pressed", String(isInWatchlist));
+
+        watchlistForm.addEventListener("submit", async event => {
+            event.preventDefault();
+
+            const method = isInWatchlist ? "DELETE" : "POST";
+            const url = isInWatchlist ? watchlistForm.dataset.destroyUrl.replace("__WATCHLIST_ID__", watchlistId) : watchlistForm.action;
+            const options = {
+                method,
+                headers: {
+                    Accept: "application/json",
+                    "X-CSRF-TOKEN": watchlistForm.querySelector('input[name="_token"]').value
+                },
+                body: isInWatchlist ? null : new FormData(watchlistForm)
+            };
+
+            watchlist.disabled = true;
+            
+            try {
+                const response = await fetch(url, options);
+                if (!response.ok) {
+                    throw new Error("Could not update your watchlist.");
+                }
+
+                const result = await response.json();
+                isInWatchlist = !isInWatchlist;
+                watchlistId = result.id ?? null;
+                watchlist.classList.toggle("is-selected", isInWatchlist);
+                watchlist.title = isInWatchlist ? "Added to watchlist" : "Add to watchlist";
+                watchlist.setAttribute("aria-label", watchlist.title);
+                watchlist.setAttribute("aria-pressed", String(isInWatchlist));
+
+            } catch (error) {
+                console.error(error);
+            } finally {
+                watchlist.disabled = false;
+            }
+        });
 
         fetch(`https://api.themoviedb.org/3/${type}/${id}?language=en-US`, options)
         .then(res => res.json())

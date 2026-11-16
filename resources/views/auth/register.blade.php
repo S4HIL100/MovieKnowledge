@@ -5,22 +5,22 @@
             @csrf
             <div class="card-body register-card-body">
                 <div class="register-field">
-                    <label for="exampleInputUsername1" class="form-label">Username</label>
-                    <input type="text" name="username" class="form-control form-control-lg" id="exampleInputUsername1" required>
-                    @error('username')
+                    <label for="name" class="form-label">Name</label>
+                    <input type="text" name="name" class="form-control form-control-lg" id="name" placeholder = "John" required>
+                    @error('name')
                         <span class="text-danger">{{ $message }}</span>
                     @enderror
                 </div>
                 <div class="register-field">
                     <label for="exampleInputEmail1" class="form-label">Email address</label>
-                    <input type="email" name="email" class="form-control form-control-lg" id="exampleInputEmail1" required>
+                    <input type="email" name="email" class="form-control form-control-lg" id="exampleInputEmail1" placeholder = "JohnDoe@gmail.com" required>
                     @error('email')
                         <span class="text-danger">{{ $message }}</span>
                     @enderror
                 </div>
                 <div class="register-field">
                     <label for="exampleInputPassword1" class="form-label">Password</label>
-                    <input type="password" name="password" class="form-control form-control-lg" id="exampleInputPassword1" required>
+                    <input type="password" name="password" class="form-control form-control-lg" id="exampleInputPassword1" placeholder = "........" required>
                     @error('password')
                         <span class="text-danger">{{ $message }}</span>
                     @enderror

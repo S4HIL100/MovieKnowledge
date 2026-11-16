@@ -30,12 +30,6 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
-
-    public function user(): BelongsTo
-    {
-        return $this->belongsTo(User::class);
-    }
-
     public function watchMedia(): HasMany
     {
         return $this->hasMany(Watchlist::class);
