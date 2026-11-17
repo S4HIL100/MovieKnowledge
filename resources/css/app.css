@@ -41,10 +41,16 @@ main:has(.register-page) {
     min-height: 60vh;
 }
 
+.login-card {
+    width: min(30%, 34rem);
+    min-height: 55vh;
+}
+
 .register-title {
     margin: 0;
     padding: 2rem 2rem 0;
     text-align: center;
+    white-space: nowrap;
 }
 
 .register-card-body {
@@ -53,6 +59,19 @@ main:has(.register-page) {
     justify-content: space-between;
     gap: 1.5rem;
     padding: 1.5rem clamp(1.5rem, 3vw, 3rem) clamp(1.5rem, 3vw, 3rem);
+}
+
+.login-card-body {
+    justify-content: flex-start;
+    gap: 1.3rem;
+}
+
+.login-card-body > .btn {
+    margin-top: 1.5rem;
+}
+
+.remember-control {
+    width: fit-content;
 }
 
 .register-field {
@@ -98,10 +117,52 @@ main:has(.register-page) {
     visibility: visible;
 }
 
-@media (max-width: 767px) {
+@media (max-width: 991px) {
     .register-card {
         width: calc(100% - 2rem);
+    }
+
+    .register-card-body {
+        justify-content: flex-start;
+        gap: clamp(1.5rem, calc(4rem - 4vw), 2.5rem);
+    }
+}
+
+@media (max-width: 767px) {
+    .login-card {
+        width: calc(100% - 1.5rem);
         min-height: 60vh;
+    }
+
+    .login-card .register-title {
+        padding: 1.5rem 1.5rem 0;
+        font-size: 1.5rem;
+    }
+
+    .login-card-body {
+        gap: 0.9rem;
+        padding: 1rem 1.5rem 1.5rem;
+    }
+
+    .login-card-body .form-control-lg {
+        padding: 0.5rem 0.75rem;
+        font-size: 1rem;
+    }
+
+    .login-card-body > .btn {
+        margin-top: 0.75rem;
+    }
+}
+
+@media (min-width: 576px) and (max-width: 767px) {
+    .login-card {
+        width: 88vw;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+    .login-card {
+        width: 78vw;
     }
 }
 

@@ -5,7 +5,7 @@
             @csrf
             <div class="card-body register-card-body">
                 <div class="register-field">
-                    <label for="name" class="form-label">Name</label>
+                    <label for="name" class="form-label">Username</label>
                     <input type="text" name="name" class="form-control form-control-lg" id="name" placeholder = "John" required>
                     @error('name')
                         <span class="text-danger">{{ $message }}</span>

@@ -36,7 +36,7 @@
                 @else
                     <div class="d-flex flex-column flex-lg-row gap-2 mt-3 mt-lg-0 ms-lg-auto">
                         <a href = "{{ route('register') }}" class="btn btn-outline-primary">Sign Up</a>
-                        <a class="btn btn-outline-primary">Login</a>
+                        <a href = "{{ route('login') }}" class="btn btn-outline-primary">Login</a>
                     </div>
                 @endauth
             </div>
@@ -61,7 +61,12 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
     <script>
         const profile = document.querySelector(".profile");
-        profile.addEventListener("click", () => {document.querySelector(".dropdown").classList.toggle("visible")});
+        const dropdown = document.querySelector(".dropdown");
+        if (profile && dropdown) {
+            profile.addEventListener("click", () => {
+                dropdown.classList.toggle("visible");
+            });
+        }
     </script>
   </body>
 </html>

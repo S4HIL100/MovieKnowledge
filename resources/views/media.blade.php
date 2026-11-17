@@ -106,9 +106,13 @@
             };
 
             watchlist.disabled = true;
-            
+
             try {
                 const response = await fetch(url, options);
+                if (response.status === 401) {
+                    window.location.href = "{{ route('login') }}";
+                    return;
+                }
                 if (!response.ok) {
                     throw new Error("Could not update your watchlist.");
                 }
