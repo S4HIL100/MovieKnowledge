@@ -46,7 +46,8 @@
     top: calc(100% + 0.5rem);
     left: 0;
     width: calc(min(40vw,36rem) - 16px - 76.52px);
-    max-height: 300px;
+    height: fit-content;
+    max-height: 270px;
     overflow-y: auto;
     border-radius: 0.5rem;
     visibility: hidden;
@@ -59,10 +60,8 @@
 
 .searchMediaContainer{
     display: flex;
-    max-height: 30px;
-    gap: 0.5rem;
-    max-height: 30px;
-    overflow: auto;
+    height: 30px;
+    overflow-x: auto;
     white-space: nowrap;
     scrollbar-width: none;
 }
@@ -76,13 +75,23 @@
     display: none;
 }
 
-.trendingImg {
+.trendImg {
     width: 25px;
     height: 25px;
     display: block;
     object-fit: cover;
     border-radius: inherit;
     filter: invert(100%);
+}
+
+.searchImg {
+    width: 18px;
+    height: 18px;
+    display: block;
+    object-fit: cover;
+    border-radius: inherit;
+    filter: invert(100%);
+    margin: 4px 4px;
 }
 
 main:has(.register-page) {
@@ -154,6 +163,11 @@ main:has(.register-page) {
     align-items: center;
     justify-content: center;
     font-weight: bold;
+}
+
+#logoutBtn:hover{
+    background-color: red;
+    transition: background-color ease-in-out 0.2s;
 }
 
 .dropdown{
@@ -436,6 +450,7 @@ footer p{
     min-width: 0;
     padding-top: 30px;
     overflow-x: auto;
+    scrollbar-width: none;
 }
 
 #backdrop .media-title-row {

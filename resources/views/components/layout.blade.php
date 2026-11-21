@@ -10,14 +10,14 @@
   <body class="bs-body-bg min-vh-100 d-flex flex-column text-light" style="background-color: #2b2e31;">
     <nav class="navbar navbar-expand-lg bg-dark" data-bs-theme="dark">
         <div class="container-fluid">
-            <a class="navbar-brand" href="/" style = "font-weight: bold; color: #b40fd2; text-shadow: 0px 0px 3px">MovieKnowledge</a>
+            <a class="navbar-brand" href= "{{ route("home") }}" style = "font-weight: bold; color: #b40fd2; text-shadow: 0px 0px 3px">MovieKnowledge</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <div class="navbar-search-wrapper">
                     <form class="navbar-search d-flex" role="search">
-                        <input id = "search" class="form-control me-2" type="search" placeholder="Search for movies or tv series..." aria-label="Search"/>
+                        <input id = "search" class="form-control me-2" type="search" autocomplete="off" placeholder="Search for movies or tv series..." aria-label="Search"/>
                         <button class="btn btn-outline-success" type="submit">Search</button>
                     </form>
                     <div class="searchOptions bg-dark"></div>
@@ -30,7 +30,7 @@
                                 <li>
                                     <form method="POST" action="/logout">
                                         @csrf
-                                        <button type="submit" class="btn btn-ghost btn-sm">Logout</button>
+                                        <button id = "logoutBtn" type="submit" class="btn btn-ghost btn-sm">Logout</button>
                                     </form>
                                 </li>
                             </ul>
@@ -86,47 +86,66 @@
             });
         }
 
-        search.addEventListener("click", () => searchContainer.classList.add("is-visible"));
+        function searchContent(url, amount, iconUrl, imgClass){
+            fetch(url, layoutOptions)
+                .then(response => response.json())
+                .then(data => {
+                    searchContainer.replaceChildren();
+                    data.results.filter(element => element.media_type !== "person").slice(0, amount).forEach(element => {
+                        const div = document.createElement("div");
+                        const image = document.createElement("img");
+                        const title = document.createElement("p");
+
+                        div.classList.add("searchMediaContainer");
+                        div.style.gap = (imgClass === "trendImg") ? "0.5rem" : "0.2rem";
+
+                        image.src = iconUrl;
+                        image.alt = "icon";
+                        image.classList.add(imgClass);
+
+                        title.innerText = (element.title != undefined) ? element.title : element.name;
+
+                        div.appendChild(image);
+                        div.appendChild(title);
+
+                        div.onclick = () => {
+                            window.location.href = `/media/${element.media_type}/${element.id}`;
+                        }
+
+                        searchContainer.appendChild(div);
+                    });
+
+                })
+                .catch(error =>{
+                    searchContainer.replaceChildren();
+                    console.error(error);
+                });
+        }
+
+        search.addEventListener("click", () => {
+            if (search.value.trim() === "") {
+                searchContent("https://api.themoviedb.org/3/trending/all/day?language=en-US", 9, @json(asset('trend.png')), "trendImg");
+            }else{
+                searchContent(`https://api.themoviedb.org/3/search/multi?query=${search.value}&include_adult=false&language=en-US&page=1`, 14, @json(asset('search.png')), "searchImg");
+            }
+            
+            searchContainer.classList.add("is-visible");
+        });
+
+        search.addEventListener("input", () => {
+            if (search.value.trim() === "") {
+                searchContent("https://api.themoviedb.org/3/trending/all/day?language=en-US", 9, @json(asset('trend.png')), "trendImg");
+            }else{
+                searchContent(`https://api.themoviedb.org/3/search/multi?query=${search.value}&include_adult=false&language=en-US&page=1`, 14, @json(asset('search.png')), "searchImg");
+            }
+
+        });
 
         document.addEventListener("click", (event) => {
             if (!search.contains(event.target) || searchContainer.contains(event.target)) {
                 searchContainer.classList.remove("is-visible");
             }
         });
-
-        fetch("https://api.themoviedb.org/3/trending/all/day?language=en-US", layoutOptions)
-            .then(response => response.json())
-            .then(data => {
-                searchContainer.replaceChildren();
-                data.results.filter(element => element.media_type !== "person").slice(0, 9).forEach(element => {
-                    const div = document.createElement("div");
-                    const image = document.createElement("img");
-                    const title = document.createElement("p");
-
-                    div.classList.add("searchMediaContainer");
-
-                    image.src = "{{ asset('trend.png') }}";
-                    image.alt = "trending";
-                    image.classList.add("trendingImg");
-
-                    title.innerText = (element.title != undefined) ? element.title : element.name;
-
-                    div.appendChild(image);
-                    div.appendChild(title);
-
-                    div.onclick = () => {
-                        window.location.href = `/media/${element.media_type}/${element.id}`;
-                    }
-
-                    searchContainer.appendChild(div);
-                });
-
-            })
-            .catch(error =>{
-                searchContainer.replaceChildren();
-                console.error(error);
-            });
-
     </script>
   </body>
 </html>
