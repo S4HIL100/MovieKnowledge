@@ -15,10 +15,13 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <form class="navbar-search d-flex" role="search">
-                    <input class="form-control me-2" type="search" placeholder="Search for movies or tv series..." aria-label="Search"/>
-                    <button class="btn btn-outline-success" type="submit">Search</button>
-                </form>
+                <div class="navbar-search-wrapper">
+                    <form class="navbar-search d-flex" role="search">
+                        <input id = "search" class="form-control me-2" type="search" placeholder="Search for movies or tv series..." aria-label="Search"/>
+                        <button class="btn btn-outline-success" type="submit">Search</button>
+                    </form>
+                    <div class="searchOptions bg-dark"></div>
+                </div>
                 @auth
                     <div class="d-flex flex-column flex-lg-row gap-2 mt-3 mt-lg-0 ms-lg-auto">
                         <div class = "profile">{{ mb_substr(auth()->user()->name, 0, 1)}}</div>
@@ -62,11 +65,68 @@
     <script>
         const profile = document.querySelector(".profile");
         const dropdown = document.querySelector(".dropdown");
+        const searchContainer = document.querySelector(".searchOptions");
+        const search = document.getElementById("search");
+        const layoutOptions = {
+            method: 'GET',
+            headers: {
+                accept: 'application/json',
+                Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJjZDRmOTczOWFlOTAyM2Q1NzVkZDU2MTAxMzk0ZTlkNyIsIm5iZiI6MTc5MTgwNzgwOC43MTgwMDAyLCJzdWIiOiI2YWNjZDE0MDU0MTI4N2U2MGJiN2MzMmIiLCJzY29wZXMiOlsiYXBpX3JlYWQiXSwidmVyc2lvbiI6MX0.YOSZbtJefOt1jU5sqVYsnsyfiggJVOgmUv_qMU63Rno'
+            }
+        };
+
         if (profile && dropdown) {
             profile.addEventListener("click", () => {
-                dropdown.classList.toggle("visible");
+                dropdown.classList.add("visible");
+            });
+            document.addEventListener("click", (event) => {
+                if (!profile.contains(event.target)) {
+                    dropdown.classList.remove("visible");
+                }
             });
         }
+
+        search.addEventListener("click", () => searchContainer.classList.add("is-visible"));
+
+        document.addEventListener("click", (event) => {
+            if (!search.contains(event.target) || searchContainer.contains(event.target)) {
+                searchContainer.classList.remove("is-visible");
+            }
+        });
+
+        fetch("https://api.themoviedb.org/3/trending/all/day?language=en-US", layoutOptions)
+            .then(response => response.json())
+            .then(data => {
+                searchContainer.replaceChildren();
+                data.results.filter(element => element.media_type !== "person").slice(0, 9).forEach(element => {
+                    const div = document.createElement("div");
+                    const image = document.createElement("img");
+                    const title = document.createElement("p");
+
+                    div.classList.add("searchMediaContainer");
+
+                    image.src = "{{ asset('trend.png') }}";
+                    image.alt = "trending";
+                    image.classList.add("trendingImg");
+
+                    title.innerText = (element.title != undefined) ? element.title : element.name;
+
+                    div.appendChild(image);
+                    div.appendChild(title);
+
+                    div.onclick = () => {
+                        window.location.href = `/media/${element.media_type}/${element.id}`;
+                    }
+
+                    searchContainer.appendChild(div);
+                });
+
+            })
+            .catch(error =>{
+                searchContainer.replaceChildren();
+                console.error(error);
+            });
+
     </script>
   </body>
 </html>

@@ -22,13 +22,67 @@
     border-radius: 15px;
 }
 
+.navbar {
+    position: relative;
+    z-index: 10;
+}
+
 .navbar-search .form-control {
     flex: 1;
     min-width: 0;
     }
 
 .navbar-search .btn {
-    margin-left:8px;
+    margin-left: 8px;
+}
+
+.navbar-search-wrapper {
+    position: relative;
+}
+
+.searchOptions {
+    position: absolute;
+    z-index: 1;
+    top: calc(100% + 0.5rem);
+    left: 0;
+    width: calc(min(40vw,36rem) - 16px - 76.52px);
+    max-height: 300px;
+    overflow-y: auto;
+    border-radius: 0.5rem;
+    visibility: hidden;
+}
+
+.is-visible{
+    visibility: visible;
+    animation: expand 0.5s;
+}
+
+.searchMediaContainer{
+    display: flex;
+    max-height: 30px;
+    gap: 0.5rem;
+    max-height: 30px;
+    overflow: auto;
+    white-space: nowrap;
+    scrollbar-width: none;
+}
+
+.searchMediaContainer:hover{
+    cursor: pointer;
+    background-color: grey;
+}
+
+.searchOptions:empty {
+    display: none;
+}
+
+.trendingImg {
+    width: 25px;
+    height: 25px;
+    display: block;
+    object-fit: cover;
+    border-radius: inherit;
+    filter: invert(100%);
 }
 
 main:has(.register-page) {
@@ -117,6 +171,16 @@ main:has(.register-page) {
     visibility: visible;
 }
 
+@keyframes expand{
+    0%{
+        height: 0px;
+    }
+    100%{
+        height: 270px;
+    }
+
+}
+
 @media (max-width: 991px) {
     .register-card {
         width: calc(100% - 2rem);
@@ -171,10 +235,11 @@ main:has(.register-page) {
         position: relative;
     }
 
-    .navbar-search {
+    .navbar-search-wrapper {
         position: absolute;
+        top: 50%;
         left: 50%;
-        transform: translateX(-50%);
+        transform: translate(-50%, -50%);
         width: min(40vw, 36rem);
     }
 }
@@ -185,7 +250,7 @@ footer p{
 }
 
 @media (max-width: 991px) {
-    .navbar-search {
+    .navbar-search-wrapper {
         width: 100%;
         margin-top: 0.5rem;
     }
@@ -244,8 +309,7 @@ footer p{
     display: flex;
     overflow: auto;
     min-height: 380px;
-    scrollbar-width: thin;
-    scrollbar-color: #020202 transparent;
+    scrollbar-width: none;
 }
 
 .Container img{
